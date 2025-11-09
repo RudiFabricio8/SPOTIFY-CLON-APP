@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LibraryRoutingModule } from './library-routing-module';
-import { Library } from './library';
+import { LibraryComponent } from './library';
 
 
 @NgModule({
   declarations: [
-    Library
+    LibraryComponent
   ],
   imports: [
     CommonModule,
