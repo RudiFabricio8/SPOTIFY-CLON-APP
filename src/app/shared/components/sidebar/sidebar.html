@@ -1,1 +1,28 @@
-<p>sidebar works!</p>
+<nav class="sidebar-nav">
+  <div class="logo-section">
+    <img src="assets/spotify-icon.svg" alt="Spotify Player Logo" class="logo-icon">
+    <span class="logo-text">Spotify Player</span>
+  </div>
+  <ul>
+    <li>
+      <a routerLink="/home" routerLinkActive="active" aria-label="Ir a Home">
+        <span class="icon">🏠</span> Home
+      </a>
+    </li>
+    <li>
+      <a routerLink="/search" routerLinkActive="active" aria-label="Ir a Buscar">
+        <span class="icon">🔎</span> Buscar
+      </a>
+    </li>
+    <li>
+      <a class="disabled-link" aria-disabled="true" aria-label="Tu Biblioteca (próximamente)">
+        <span class="icon">📚</span> Tu Biblioteca <span class="soon-tag">Próximamente</span>
+      </a>
+    </li>
+  </ul>
+  <div class="logout-section">
+    <button (click)="logout()" aria-label="Cerrar sesión">
+      <span class="icon">🚪</span> Cerrar sesión
+    </button>
+  </div>
+</nav>
