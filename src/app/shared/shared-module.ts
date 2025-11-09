@@ -4,7 +4,7 @@ import { SidebarComponent } from './components/sidebar/sidebar';
 import { PlayerControlsComponent } from './components/player-controls/player-controls';
 import { SongCardComponent } from './components/song-card/song-card';
 import { RouterModule } from '@angular/router';
-import { MsToMmssPipe } from './pipes/ms-to-mmss.pipe';
+import { MsToMmssPipe } from './pipes/ms-to-mmss-pipe';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
