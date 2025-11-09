@@ -22,6 +22,10 @@ export class HomeComponent {
     this.queue$ = this.playerQueueService.queue$;
   }
 
+  trackById(index: number, item: Track): string {
+  return item.id;
+  }
+
   onTrackSelected(track: Track): void {
     this.playerService.load(track);
     this.playerService.play();

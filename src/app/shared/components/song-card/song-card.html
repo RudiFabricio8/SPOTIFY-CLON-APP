@@ -1,37 +1,47 @@
 <div class="song-card-container" (click)="toggleFlip()" tabindex="0" role="button" [attr.aria-label]="track ? ('Detalles de la canción ' + track.name) : 'Canción desconocida'" [attr.aria-expanded]="isFlipped">
-  <div class="song-card" [class.is-flipped]="isFlipped">
-    <div class="song-card-face song-card-front">
-      <img
+ <div class="song-card" [class.is-flipped]="isFlipped">
+     <div class="song-card-face song-card-front">
+        <img
         [src]="track?.albumImage || 'assets/placeholder.png'"
         [alt]="track?.albumName || 'Álbum Desconocido'"
         class="album-image"
         width="200"
         height="200"
-      >
-      <div class="track-details">
+    >
+    <div class="track-details">
         <h3 class="track-name">{{ track?.name || 'Cargando...' }}</h3>
-        <p class="artist-names">{{ track?.artistNames.join(', ') || 'Cargando...' }}</p>
-      </div>
+        <p class="artist-names" *ngIf="track && track.artistNames">
+            {{ track.artistNames.join(', ') }}
+        </p>
+        <p class="artist-names" *ngIf="!track || !track.artistNames">
+          Cargando...
+        </p>
+    </div>
     </div>
     <div class="song-card-face song-card-back">
-      <div class="back-details">
+        <div class="back-details">
         <h3 class="track-name">{{ track?.name || 'Cargando...' }}</h3>
-        <p class="artist-names">{{ track?.artistNames.join(', ') || 'Cargando...' }}</p>
+        <p class="artist-names" *ngIf="track && track.artistNames">
+            {{ track.artistNames.join(', ') }}
+        </p>
+        <p class="artist-names" *ngIf="!track || !track.artistNames">
+          Cargando...
+        </p>
         <p class="album-name">{{ track?.albumName || 'Álbum Desconocido' }}</p>
-        <p class="duration">Duración: {{ track?.durationMs | msToMmss }}</p>
+        <p class="duration">Duración: {{ track?.durationMs ?? 0 | msToMmss }}</p>
         <p class="preview-status" *ngIf="track">
-          <ng-container *ngIf="track.previewUrl; else noPreview">Preview disponible</ng-container>
-          <ng-template #noPreview>Preview no disponible</ng-template>
+            <ng-container *ngIf="track.previewUrl; else noPreview">Preview disponible</ng-container>
+            <ng-template #noPreview>Preview no disponible</ng-template>
         </p>
         <div class="actions">
-          <button *ngIf="track" class="select-button" (click)="selectTrack(); $event.stopPropagation()" aria-label="Seleccionar canción para reproducir">
-            Reproducir
-          </button>
-          <button *ngIf="track && showPreviewButton && track.previewUrl" class="preview-button" (click)="playPreview(); $event.stopPropagation()" aria-label="Reproducir solo preview">
-            Preview
-          </button>
+            <button *ngIf="track" class="select-button" (click)="selectTrack(); $event.stopPropagation()" aria-label="Seleccionar canción para reproducir">
+                Reproducir
+            </button>
+            <button *ngIf="track && showPreviewButton && track.previewUrl" class="preview-button" (click)="playPreview(); $event.stopPropagation()" aria-label="Reproducir solo preview">
+                Preview
+            </button>
         </div>
-      </div>
+        </div>
     </div>
-  </div>
+    </div>
 </div>
