@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   exports: [
+    CommonModule,
     SidebarComponent,
     PlayerControlsComponent,
     SongCardComponent,

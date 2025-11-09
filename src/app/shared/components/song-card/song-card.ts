@@ -4,7 +4,8 @@ import { Track } from '../../../core/models/track';
 @Component({
   selector: 'app-song-card',
   templateUrl: './song-card.html',
-  styleUrls: ['./song-card.scss']
+  styleUrls: ['./song-card.scss'],
+  standalone: false
 })
 export class SongCardComponent {
   @Input() track: Track | null = null;
