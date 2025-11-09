@@ -1,1 +1,44 @@
-<p>search works!</p>
+<div class="search-page-container">
+  <div class="search-input-wrapper">
+    <input
+      type="text"
+      [formControl]="searchControl"
+      placeholder="Busca canciones, artistas o álbumes..."
+      class="search-input"
+      aria-label="Campo de búsqueda de canciones"
+      autocomplete="off"
+    >
+  </div>
+
+  <div class="search-results-container" *ngIf="searchControl.value && (searchControl.value.trim().length > 0)">
+    <ng-container *ngIf="searchResults$ | async as results; else loadingOrNoResults">
+      <ng-container *ngIf="results.length > 0; else noResults">
+        <div class="search-results-grid" role="grid" aria-live="polite">
+          <app-song-card
+            *ngFor="let track of results; trackBy: trackById"
+            [track]="track"
+            [showPreviewButton]="true"
+            (select)="playTrack($event)"
+            (preview)="playPreview($event)"
+            class="search-result-card"
+            role="gridcell"
+          ></app-song-card>
+        </div>
+      </ng-container>
+      <ng-template #noResults>
+        <div class="no-results" aria-live="polite">
+          <p>No encontramos resultados para "{{ getSearchTerm() }}"</p>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #loadingOrNoResults>
+      <div class="loading-or-empty" *ngIf="!searchControl.value || searchControl.value.trim().length === 0; else loadingIndicator">
+        <p>Empieza a escribir para buscar canciones.</p>
+      </div>
+      <ng-template #loadingIndicator>
+        <div class="loading-spinner"></div>
+      </ng-template>
+    </ng-template>
+  </div>
+</div>

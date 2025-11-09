@@ -10,7 +10,8 @@ import { PlayerQueueService } from '../../core/services/player-queue';
 @Component({
   selector: 'app-search',
   templateUrl: './search.html',
-  styleUrls: ['./search.scss']
+  styleUrls: ['./search.scss'],
+  standalone: false
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchControl = new FormControl<string>('');
