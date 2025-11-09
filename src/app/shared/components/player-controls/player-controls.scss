@@ -1,0 +1,217 @@
+.player-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--sp-elevated);
+  padding: 10px 20px;
+  border-top: 1px solid var(--sp-border);
+  color: var(--sp-text);
+  min-height: 90px;
+}
+
+.track-info {
+  display: flex;
+  align-items: center;
+  width: 30%;
+
+  .album-art, .album-art-placeholder {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    object-fit: cover;
+    margin-right: 15px;
+    background-color: var(--sp-surface);
+    flex-shrink: 0;
+  }
+
+  .album-art-placeholder {
+    border: 1px dashed var(--sp-border);
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .track-name {
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .artist-name {
+      font-size: 0.85rem;
+      color: var(--sp-text-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .placeholder-text {
+      color: var(--sp-text-dim);
+      font-style: italic;
+    }
+  }
+}
+
+.controls-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  max-width: 40%;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+  .control-button {
+    background-color: transparent;
+    border: none;
+    color: var(--sp-text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin: 0 10px;
+    padding: 5px;
+    border-radius: 50%;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
+    &:hover:not(:disabled) {
+      color: var(--sp-accent);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--sp-accent);
+      outline-offset: 2px;
+    }
+    &.large {
+      font-size: 2.2rem;
+      background-color: var(--sp-accent);
+      width: 45px;
+      height: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover:not(:disabled) {
+        background-color: var(--sp-accent-press);
+        color: var(--sp-text);
+      }
+    }
+    &:disabled {
+      color: var(--sp-text-dim);
+      cursor: not-allowed;
+      opacity: 0.5;
+      background-color: transparent !important;
+    }
+  }
+}
+
+.progress-bar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 0.8rem;
+  color: var(--sp-text-dim);
+
+  .time {
+    width: 40px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .progress-slider {
+    flex-grow: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--sp-border);
+    border-radius: 2px;
+    cursor: pointer;
+    margin: 0 10px;
+
+    &:focus-visible {
+      outline: 2px solid var(--sp-accent);
+      outline-offset: 2px;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background: var(--sp-accent);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+
+    &::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      background: var(--sp-accent);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      &::-webkit-slider-thumb, &::-moz-range-thumb {
+        background: var(--sp-text-dim);
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.volume-controls {
+  display: flex;
+  align-items: center;
+  width: 30%;
+  justify-content: flex-end;
+
+  .icon {
+    font-size: 1.2rem;
+    margin-right: 10px;
+    color: var(--sp-text-dim);
+  }
+
+  .volume-slider {
+    width: 100px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--sp-border);
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--sp-accent);
+      outline-offset: 2px;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background: var(--sp-accent);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+
+    &::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      background: var(--sp-accent);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    }
+  }
+}

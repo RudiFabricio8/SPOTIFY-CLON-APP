@@ -1,1 +1,64 @@
-<p>player-controls works!</p>
+<div class="player-controls">
+  <div class="track-info">
+    <img
+      *ngIf="currentTrack$ | async as track; else placeholderImage"
+      [src]="track.albumImage"
+      [alt]="track.albumName"
+      class="album-art"
+      width="60"
+      height="60"
+    >
+    <ng-template #placeholderImage>
+      <div class="album-art-placeholder"></div>
+    </ng-template>
+    <div class="details">
+      <span class="track-name" *ngIf="currentTrack$ | async as track; else placeholderText">{{ track.name }}</span>
+      <span class="artist-name" *ngIf="currentTrack$ | async as track; else placeholderText">{{ track.artistNames.join(', ') }}</span>
+      <ng-template #placeholderText>
+        <span class="placeholder-text">Ninguna canción</span>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="controls-center">
+    <div class="buttons">
+      <button class="control-button" [disabled]="isPrevDisabled()" aria-label="Pista anterior" title="Pista anterior (deshabilitado)">⏮️</button>
+      <button class="control-button large" (click)="togglePlayPause()" aria-label="{{ (isPlaying$ | async) ? 'Pausar' : 'Reproducir' }}" [disabled]="!(currentTrack$ | async) || !(currentTrack$ | async)?.previewUrl">
+        <span *ngIf="isPlaying$ | async">⏸️</span>
+        <span *ngIf="!(isPlaying$ | async)">▶️</span>
+      </button>
+      <button class="control-button" (click)="playNext()" aria-label="Siguiente pista" title="Siguiente pista">⏭️</button>
+    </div>
+    <div class="progress-bar-container">
+      <span class="time">{{ (currentTimeMs$ | async) | msToMmss }}</span>
+      <input
+        type="range"
+        class="progress-slider"
+        min="0"
+        max="1"
+        step="0.001"
+        [value]="progress$ | async"
+        (input)="onProgressChange($event)"
+        (mousedown)="onSeekStart()"
+        (mouseup)="onSeekEnd($event)"
+        aria-label="Progreso de la canción"
+        [disabled]="!(currentTrack$ | async) || !(currentTrack$ | async)?.previewUrl"
+      >
+      <span class="time">{{ (totalTimeMs$ | async) | msToMmss }}</span>
+    </div>
+  </div>
+
+  <div class="volume-controls">
+    <span class="icon">🔊</span>
+    <input
+      type="range"
+      class="volume-slider"
+      min="0"
+      max="1"
+      step="0.01"
+      [value]="volume$ | async"
+      (input)="onVolumeChange($event)"
+      aria-label="Control de volumen"
+    >
+  </div>
+</div>
