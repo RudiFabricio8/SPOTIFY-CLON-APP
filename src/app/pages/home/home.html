@@ -1,1 +1,39 @@
-<p>home works!</p>
+<div class="home-container">
+  <div class="main-content">
+    <div class="current-track-section">
+      <ng-container *ngIf="currentTrack$ | async as track; else noTrackPlaceholder">
+        <app-song-card [track]="track" class="current-song-card"></app-song-card>
+        <div class="player-controls-wrapper">
+          <app-player-controls></app-player-controls>
+        </div>
+      </ng-container>
+      <ng-template #noTrackPlaceholder>
+        <div class="placeholder">
+          <p aria-live="polite">Busca una canción para empezar a escuchar.</p>
+          <button routerLink="/search" class="search-button">Ir a Buscar</button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="up-next-sidebar">
+    <h2>En Cola</h2>
+    <div class="queue-list" *ngIf="queue$ | async as queue; else emptyQueuePlaceholder">
+      <ng-container *ngIf="queue.length > 0; else emptyQueuePlaceholder">
+        <div *ngFor="let track of queue; trackBy: trackById" class="queue-item" role="listitem" [attr.aria-label]="'Siguiente en la cola: ' + track.name + ' de ' + track.artistNames.join(', ')">
+          <img [src]="track.albumImage" [alt]="track.albumName" class="queue-album-art" width="40" height="40">
+          <div class="queue-track-info">
+            <span class="queue-track-name">{{ track.name }}</span>
+            <span class="queue-artist-name">{{ track.artistNames.join(', ') }}</span>
+          </div>
+          <button class="remove-button" (click)="removeTrackFromQueue(track.id)" aria-label="Remover de la cola">✖️</button>
+        </div>
+      </ng-container>
+    </div>
+    <ng-template #emptyQueuePlaceholder>
+      <div class="empty-queue">
+        <p>La cola está vacía. Añade canciones desde la búsqueda.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
