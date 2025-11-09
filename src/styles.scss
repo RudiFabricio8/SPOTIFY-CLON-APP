@@ -1,1 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'styles/tokens';
+
+:root {
+  --sp-bg: #{$sp-bg};
+  --sp-surface: #{$sp-surface};
+  --sp-elevated: #{$sp-elevated};
+  --sp-border: #{$sp-border};
+  --sp-text: #{$sp-text};
+  --sp-text-dim: #{$sp-text-dim};
+  --sp-accent: #{$sp-accent};
+  --sp-accent-press: #{$sp-accent-press};
+
+  --sp-success: #{$sp-success};
+  --sp-warning: #{$sp-warning};
+  --sp-error: #{$sp-error};
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--sp-bg);
+  color: var(--sp-text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
