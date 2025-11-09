@@ -6,7 +6,8 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-auth-callback',
   template: '<p>Cargando sesión...</p>',
-  styleUrls: ['./auth-callback.scss']
+  styleUrls: ['./auth-callback.scss'],
+  standalone: false
 })
 export class AuthCallbackComponent implements OnInit {
 
