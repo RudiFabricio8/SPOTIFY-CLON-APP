@@ -1,26 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Sidebar } from './components/sidebar/sidebar';
-import { PlayerControls } from './components/player-controls/player-controls';
-import { SongCard } from './components/song-card/song-card';
-import { MsToMmssPipe } from './pipes/ms-to-mmss-pipe';
-
-
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { PlayerControlsComponent } from './components/player-controls/player-controls-component';
+import { SongCardComponent } from './components/song-card/song-card.component';
+import { RouterModule } from '@angular/router';
+import { MsToMmssPipe } from './pipes/ms-to-mmss.pipe';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    Sidebar,
-    PlayerControls,
-    SongCard,
+    SidebarComponent,
+    PlayerControlsComponent,
+    SongCardComponent,
     MsToMmssPipe
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    FormsModule
   ],
   exports: [
-    Sidebar,
-    PlayerControls,
-    SongCard,
+    SidebarComponent,
+    PlayerControlsComponent,
+    SongCardComponent,
     MsToMmssPipe
   ]
 })
