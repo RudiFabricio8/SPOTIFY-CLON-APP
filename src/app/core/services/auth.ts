@@ -105,7 +105,7 @@ export class AuthService {
       }
     });
 
-      return this.http.post<{ access_token: string; expires_in: number }>(
+    return this.http.post<{ access_token: string; expires_in: number }>(
       `${environment.spotifyAccountsBase}/api/token`,
       body.toString(),
       { headers }

@@ -6,7 +6,7 @@ import { AuthCallbackComponent } from './auth-callback/auth-callback';
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
-    path: 'auth-callback',
+    path: 'callback',
     component: AuthCallbackComponent
   },
   {

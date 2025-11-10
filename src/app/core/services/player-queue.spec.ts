@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { PlayerQueueService } from './player-queue';
 
-import { PlayerQueue } from './player-queue';
-
-describe('PlayerQueue', () => {
-  let service: PlayerQueue;
+describe('PlayerQueueService', () => {
+  let service: PlayerQueueService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PlayerQueue);
+    service = TestBed.inject(PlayerQueueService);
   });
 
   it('should be created', () => {

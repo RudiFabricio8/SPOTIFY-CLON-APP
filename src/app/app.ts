@@ -10,8 +10,10 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
   isLoggedIn$: Observable<boolean>;
+  public authServiceRef: AuthService;
 
-  constructor(public authService: AuthService) {
+  constructor(private authService: AuthService) {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
+    this.authServiceRef = authService;
   }
 }
