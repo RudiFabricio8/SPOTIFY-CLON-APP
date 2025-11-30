@@ -35,28 +35,28 @@ export class AlbumDetailComponent implements OnInit {
   }
 
   playTrack(track: Track): void {
-    if (!this.album || !this.album.tracks) {
-      return;
-    }
-    const allTracks = this.album.tracks.items;
-    const tracks = allTracks.filter(t => !!t.preview_url);
-    if (!tracks.length) {
-      return;
-    }
-    const index = tracks.findIndex(t => t.id === track.id);
-    this.playerState.setQueue(tracks, index < 0 ? 0 : index);
-    this.router.navigate(['/home']);
+  if (!this.album || !this.album.tracks) {
+    return;
   }
+  const allTracks = this.album.tracks.items || [];
+  if (!allTracks.length) {
+    return;
+  }
+  const index = allTracks.findIndex(t => t.id === track.id);
+  this.playerState.setQueue(allTracks, index < 0 ? 0 : index);
+  this.router.navigate(['/home']);
+}
+
 
   playAlbum(): void {
     if (!this.album || !this.album.tracks) {
       return;
     }
-    const tracks = this.album.tracks.items.filter(t => !!t.preview_url);
-    if (!tracks.length) {
+    const allTracks = this.album.tracks.items || [];
+    if (!allTracks.length) {
       return;
     }
-    this.playerState.setQueue(tracks, 0);
+    this.playerState.setQueue(allTracks, 0);
     this.router.navigate(['/home']);
   }
 

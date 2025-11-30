@@ -4,8 +4,14 @@
       <div class="player-card-front">
         <img
           class="player-cover"
-          [src]="track.album.images[0]?.url"
-          [alt]="track.name"
+          [src]="
+            (track.album &&
+              track.album.images &&
+              track.album.images[0] &&
+              track.album.images[0].url) ||
+            'assets/placeholder-cover.png'
+          "
+          [alt]="track.name || 'No track selected'"
         />
       </div>
       <div class="player-card-back">
@@ -15,12 +21,10 @@
           <p class="player-album">
             {{ track.album.name }}
             <span *ngIf="track.album.release_date">
-              - {{ track.album.release_date | date: 'yyyy' }}
+              - {{ track.album.release_date | date : 'yyyy' }}
             </span>
           </p>
-          <p class="player-meta">
-            Duration: {{ formatTime(track.duration_ms / 1000) }}
-          </p>
+          <p class="player-meta">Duration: {{ formatTime(track.duration_ms / 1000) }}</p>
         </div>
       </div>
     </div>
@@ -28,53 +32,26 @@
 
   <div class="player-info">
     <h1 class="track-title">{{ track.name }}</h1>
-    <p class="track-subtitle">
-      {{ getArtistNames(track.artists) }} - {{ track.album.name }}
-    </p>
+    <p class="track-subtitle">{{ getArtistNames(track.artists) }} - {{ track.album.name }}</p>
 
     <div class="player-controls">
       <button type="button" (click)="playPrevious()">⏮</button>
-
-      <button
-        type="button"
-        class="play-button"
-        (click)="togglePlay()"
-        [disabled]="!track.preview_url"
-      >
-        {{ track.preview_url ? (isPlaying ? 'Pause' : 'Play') : 'No preview' }}
-      </button>
-
+      <!-- Botón central solo decorativo -->
+      <button type="button" class="play-button">Playing</button>
       <button type="button" (click)="playNext()">⏭</button>
     </div>
 
-    <div class="player-progress" *ngIf="track.preview_url; else noPreviewText">
+    <div class="player-progress">
       <span class="time">{{ formatTime(currentTime) }}</span>
       <input
         type="range"
         min="0"
-        [max]="duration || 0"
+        [max]="(track.duration_ms || 0) / 1000"
         [value]="currentTime"
         (input)="onSeek($event)"
       />
-      <span class="time">{{ formatTime(duration) }}</span>
+      <span class="time">{{ formatTime((track.duration_ms || 0) / 1000) }}</span>
     </div>
-
-    <ng-template #noPreviewText>
-      <p class="no-preview">
-        This track has no preview. Use the button below to open it in Spotify.
-      </p>
-    </ng-template>
-
-    <button type="button" (click)="openInSpotify(track)">
-      Open in Spotify
-    </button>
-
-    <audio
-      #audioRef
-      [src]="track.preview_url || ''"
-      (timeupdate)="onTimeUpdate()"
-      (ended)="onEnded()"
-    ></audio>
   </div>
 </div>
 
