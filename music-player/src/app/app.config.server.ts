@@ -1,12 +1,7 @@
-import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
-import { provideServerRendering, withRoutes } from '@angular/ssr';
+import { mergeApplicationConfig } from '@angular/core';
 import { appConfig } from './app.config';
-import { serverRoutes } from './app.routes.server';
 
-const serverConfig: ApplicationConfig = {
-  providers: [
-    provideServerRendering(withRoutes(serverRoutes))
-  ]
-};
-
-export const config = mergeApplicationConfig(appConfig, serverConfig);
+// For development server-side rendering route extraction can cause runtime
+// errors in some dev-environments. Export a merged config without server
+// rendering providers to avoid SSR route extraction during `ng serve`.
+export const config = mergeApplicationConfig(appConfig);
