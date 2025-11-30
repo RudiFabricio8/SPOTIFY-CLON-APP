@@ -10,102 +10,109 @@ import { PlayerStateService } from '../../core/services/player-state.service';
   standalone: false
 })
 export class PlayerComponent {
-	currentTrack$: Observable<Track | null>;
-	isPlaying = false;
-	flipped = false;
-	currentTime = 0;
-	duration = 0;
+  currentTrack$: Observable<Track | null>;
+  isPlaying = false;
+  flipped = false;
+  currentTime = 0;
+  duration = 0;
 
-	@ViewChild('audioRef') audioRef?: ElementRef<HTMLAudioElement>;
+  @ViewChild('audioRef') audioRef?: ElementRef<HTMLAudioElement>;
 
-	constructor(private playerState: PlayerStateService) {
-		this.currentTrack$ = this.playerState.currentTrack$;
-	}
+  constructor(private playerState: PlayerStateService) {
+    this.currentTrack$ = this.playerState.currentTrack$;
+  }
 
-	togglePlay(): void {
-		const audio = this.audioRef?.nativeElement;
-		if (!audio) {
-			return;
-		}
-		if (this.isPlaying) {
-			audio.pause();
-			this.isPlaying = false;
-		} else {
-			audio.play();
-			this.isPlaying = true;
-		}
-	}
+  togglePlay(): void {
+    const audio = this.audioRef?.nativeElement;
+    if (!audio) {
+      return;
+    }
+    if (this.isPlaying) {
+      audio.pause();
+      this.isPlaying = false;
+    } else {
+      audio.play();
+      this.isPlaying = true;
+    }
+  }
 
-	onTimeUpdate(): void {
-		const audio = this.audioRef?.nativeElement;
-		if (!audio) {
-			return;
-		}
-		this.currentTime = audio.currentTime;
-		this.duration = audio.duration || 0;
-	}
+  onTimeUpdate(): void {
+    const audio = this.audioRef?.nativeElement;
+    if (!audio) {
+      return;
+    }
+    this.currentTime = audio.currentTime;
+    this.duration = audio.duration || 0;
+  }
 
-	onSeek(event: Event): void {
-		const audio = this.audioRef?.nativeElement;
-		if (!audio) {
-			return;
-		}
-		const input = event.target as HTMLInputElement;
-		const value = Number(input.value);
-		if (!isNaN(value)) {
-			audio.currentTime = value;
-		}
-	}
+  onSeek(event: Event): void {
+    const audio = this.audioRef?.nativeElement;
+    if (!audio) {
+      return;
+    }
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (!isNaN(value)) {
+      audio.currentTime = value;
+    }
+  }
 
-	onEnded(): void {
-		this.playerState.playNext();
-		const audio = this.audioRef?.nativeElement;
-		setTimeout(() => {
-			if (audio) {
-				audio.play();
-				this.isPlaying = true;
-			}
-		});
-	}
+  onEnded(): void {
+    this.playerState.playNext();
+    const audio = this.audioRef?.nativeElement;
+    setTimeout(() => {
+      if (audio) {
+        audio.play();
+        this.isPlaying = true;
+      }
+    });
+  }
 
-	playNext(): void {
-		this.playerState.playNext();
-		const audio = this.audioRef?.nativeElement;
-		setTimeout(() => {
-			if (audio) {
-				audio.play();
-				this.isPlaying = true;
-			}
-		});
-	}
+  playNext(): void {
+    this.playerState.playNext();
+    const audio = this.audioRef?.nativeElement;
+    setTimeout(() => {
+      if (audio) {
+        audio.play();
+        this.isPlaying = true;
+      }
+    });
+  }
 
-	playPrevious(): void {
-		this.playerState.playPrevious();
-		const audio = this.audioRef?.nativeElement;
-		setTimeout(() => {
-			if (audio) {
-				audio.play();
-				this.isPlaying = true;
-			}
-		});
-	}
+  playPrevious(): void {
+    this.playerState.playPrevious();
+    const audio = this.audioRef?.nativeElement;
+    setTimeout(() => {
+      if (audio) {
+        audio.play();
+        this.isPlaying = true;
+      }
+    });
+  }
 
-	toggleFlip(): void {
-		this.flipped = !this.flipped;
-	}
+  toggleFlip(): void {
+    this.flipped = !this.flipped;
+  }
 
-	formatTime(value: number): string {
-		if (!value || isNaN(value)) {
-			return '0:00';
-		}
-		const totalSeconds = Math.floor(value);
-		const minutes = Math.floor(totalSeconds / 60);
-		const seconds = totalSeconds % 60;
-		const padded = seconds < 10 ? `0${seconds}` : `${seconds}`;
-		return `${minutes}:${padded}`;
-	}
+  formatTime(value: number): string {
+    if (!value || isNaN(value)) {
+      return '0:00';
+    }
+    const totalSeconds = Math.floor(value);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const padded = seconds < 10 ? `0${seconds}` : `${seconds}`;
+    return `${minutes}:${padded}`;
+  }
 
-	getArtistNames(artists: Array<{ name: string }> | undefined): string {
-		return (artists || []).map(a => a.name).join(', ');
-	}
+  getArtistNames(artists: Array<{ name: string }> | undefined): string {
+    return (artists || []).map(a => a.name).join(', ');
+  }
+
+  openInSpotify(track: Track): void {
+    if (!track?.id) {
+      return;
+    }
+    window.open(`https://open.spotify.com/track/${track.id}`, '_blank');
+  }
 }

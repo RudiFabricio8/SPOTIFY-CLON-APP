@@ -8,59 +8,70 @@ import { Album } from '../../shared/models/album.model';
 import { Router } from '@angular/router';
 
 interface SearchResult {
-	tracks: Track[];
-	albums: Album[];
+  tracks: Track[];
+  albums: Album[];
 }
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class SearchComponent {
-	query = '';
-	loading = false;
-	results$?: Observable<SearchResult | null>;
+  query = '';
+  loading = false;
+  results$?: Observable<SearchResult | null>;
 
-	constructor(
-		private spotify: SpotifyService,
-		private playerState: PlayerStateService,
-		private router: Router
-	) {}
+  constructor(
+    private spotify: SpotifyService,
+    private playerState: PlayerStateService,
+    private router: Router
+  ) {}
 
-	onSearch(): void {
-		const trimmed = this.query.trim();
-		if (!trimmed) {
-			this.results$ = undefined;
-			return;
-		}
-		this.loading = true;
-		this.results$ = this.spotify.search(trimmed).pipe(
-			map(res => {
-				this.loading = false;
-				return {
-					tracks: res.tracks.items,
-					albums: res.albums.items
-				};
-			})
-		);
-	}
+  onSearch(): void {
+    const trimmed = this.query.trim();
+    if (!trimmed) {
+      this.results$ = undefined;
+      return;
+    }
+    this.loading = true;
+    this.results$ = this.spotify.search(trimmed).pipe(
+      map((res) => {
+        this.loading = false;
+        return {
+          tracks: res.tracks.items,
+          albums: res.albums.items,
+        };
+      })
+    );
+  }
 
-	playTrack(track: Track): void {
-		const albumId = track.album.id;
-		this.spotify.getAlbum(albumId).subscribe(album => {
-			const tracks = album.tracks?.items || [];
-			const index = tracks.findIndex(t => t.id === track.id);
-			this.playerState.setQueue(tracks, index < 0 ? 0 : index);
-		});
-	}
+  playTrack(track: Track): void {
+  const albumId = track.album.id;
+  console.log('Track seleccionado en search', track);
+  this.spotify.getAlbum(albumId).subscribe(album => {
+    console.log('Album recibido en search', album);
+    const allTracks = album.tracks?.items || [];
+    console.log('Tracks del album', allTracks);
+    const tracks = allTracks.filter(t => !!t.preview_url);
+    console.log('Tracks con preview_url', tracks);
+    if (!tracks.length) {
+      console.warn('Sin tracks con preview_url');
+      return;
+    }
+    const index = tracks.findIndex(t => t.id === track.id);
+    console.log('Index a reproducir', index);
+    this.playerState.setQueue(tracks, index < 0 ? 0 : index);
+    this.router.navigate(['/home']);
+  });
+}
 
-	openAlbum(album: Album): void {
-		this.router.navigate(['/album', album.id]);
-	}
+  openAlbum(album: Album): void {
+    this.router.navigate(['/album', album.id]);
+  }
 
-	getArtistNames(artists: Array<{ name: string }> | undefined): string {
-		return (artists || []).map(a => a.name).join(', ');
-	}
+  getArtistNames(artists: Array<{ name: string }> | undefined): string {
+    return (artists || []).map((a) => a.name).join(', ');
+  }
 }
