@@ -9,7 +9,7 @@
 			*ngFor="let album of albums"
 			(click)="openAlbum(album)"
 		>
-			<img [src]="album.images?.[0]?.url" [alt]="album.name" />
+			<img [src]="album.images[0].url" [alt]="album.name" />
 			<div class="library-card-info">
 				<div class="title">{{ album.name }}</div>
 				<div class="subtitle">{{ getArtistNames(album.artists) }}</div>

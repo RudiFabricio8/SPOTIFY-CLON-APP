@@ -20,7 +20,7 @@
 				(click)="playTrack(track)"
 			>
 				<img
-					[src]="track.album.images?.[0]?.url"
+					[src]="track.album.images[0].url"
 					[alt]="track.name"
 				/>
 				<div class="search-track-info">
@@ -41,7 +41,7 @@
 				(click)="openAlbum(album)"
 			>
 				<img
-					[src]="album.images?.[0]?.url"
+					[src]="album.images[0].url"
 					[alt]="album.name"
 				/>
 				<div class="search-album-info">
