@@ -1,0 +1,25 @@
+.layout-root {
+display: grid;
+grid-template-columns: 240px 1fr 320px;
+height: 100vh;
+background-color: #121212;
+color: #ffffff;
+}
+
+.layout-sidebar {
+background-color: #000000;
+border-right: 1px solid #282828;
+padding: 16px;
+}
+
+.layout-main {
+padding: 24px;
+overflow: auto;
+}
+
+.layout-right-panel {
+background-color: #181818;
+border-left: 1px solid #282828;
+padding: 16px;
+overflow: auto;
+}

@@ -1,0 +1,24 @@
+.album-root {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.album-header {
+display: flex;
+gap: 12px;
+align-items: center;
+}
+
+.album-header img {
+width: 160px;
+height: 160px;
+object-fit: cover;
+}
+
+.album-tracks .track-row {
+display: flex;
+justify-content: space-between;
+padding: 8px 0;
+border-bottom: 1px solid #2a2a2a;
+}

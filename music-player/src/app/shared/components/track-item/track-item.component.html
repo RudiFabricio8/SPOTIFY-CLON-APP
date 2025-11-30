@@ -1,0 +1,1 @@
+<div class="track-item" [class.track-item-active]="active" (click)="onClick()" > <div class="track-item-cover"> <img [src]="track.album.images?.[0]?.url" [alt]="track.name" /> </div> <div class="track-item-info"> <div class="track-item-title">{{ track.name }}</div> <div class="track-item-subtitle"> {{ track.artists.map(a => a.name).join(', ') }} </div> </div> </div>

@@ -1,0 +1,16 @@
+.track-list-root {
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+
+.track-list-title {
+margin: 0;
+font-size: 16px;
+}
+
+.track-list-empty {
+margin: 0;
+color: #b3b3b3;
+font-size: 13px;
+}
