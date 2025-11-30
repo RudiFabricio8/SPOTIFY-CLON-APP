@@ -1,5 +1,5 @@
 export const environment = {
 production: false,
 spotifyApiUrl: 'https://api.spotify.com/v1',
-spotifyAccessToken: 'BQBwK4_50tJx2Bv5Bg7r9YdQ-5JW-MQWojJt1xaSlx7Q-beC_fSOWu_ldcl53IdcqaMMme2RAKY6EsxC0tUbc_hJ9eoi5JWtvRgNwLIR-y4IUe6znSStted2Z28afE0aRCIGUn-kkPc'
+spotifyAccessToken: 'BQCHflM5hX3kbgVP01IKNtv4bvf02vD7sj21OsF8WpMANfpA5uylxR-t6x2hSql5go5TUymnWejuyqX-wExzx31NWJHDSPbZBPCUUxqACWAcCo0OFYeUvNPn68r01uFdlqpbGywuhXY'
 };

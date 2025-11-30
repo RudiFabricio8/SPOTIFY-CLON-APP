@@ -16,7 +16,7 @@ interface SearchResult {
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  standalone: false,
+  standalone: false
 })
 export class SearchComponent {
   query = '';
@@ -37,41 +37,35 @@ export class SearchComponent {
     }
     this.loading = true;
     this.results$ = this.spotify.search(trimmed).pipe(
-      map((res) => {
+      map(res => {
         this.loading = false;
         return {
           tracks: res.tracks.items,
-          albums: res.albums.items,
+          albums: res.albums.items
         };
       })
     );
   }
 
   playTrack(track: Track): void {
-  const albumId = track.album.id;
-  console.log('Track seleccionado en search', track);
-  this.spotify.getAlbum(albumId).subscribe(album => {
-    console.log('Album recibido en search', album);
-    const allTracks = album.tracks?.items || [];
-    console.log('Tracks del album', allTracks);
-    const tracks = allTracks.filter(t => !!t.preview_url);
-    console.log('Tracks con preview_url', tracks);
-    if (!tracks.length) {
-      console.warn('Sin tracks con preview_url');
-      return;
-    }
-    const index = tracks.findIndex(t => t.id === track.id);
-    console.log('Index a reproducir', index);
-    this.playerState.setQueue(tracks, index < 0 ? 0 : index);
-    this.router.navigate(['/home']);
-  });
-}
+    const albumId = track.album.id;
+    this.spotify.getAlbum(albumId).subscribe(album => {
+      const allTracks = album.tracks?.items || [];
+      const tracks = allTracks.filter(t => !!t.preview_url);
+      if (!tracks.length) {
+        return;
+      }
+      const index = tracks.findIndex(t => t.id === track.id);
+      this.playerState.setQueue(tracks, index < 0 ? 0 : index);
+      this.router.navigate(['/home']);
+    });
+  }
 
   openAlbum(album: Album): void {
     this.router.navigate(['/album', album.id]);
   }
 
   getArtistNames(artists: Array<{ name: string }> | undefined): string {
-    return (artists || []).map((a) => a.name).join(', ');
+    return (artists || []).map(a => a.name).join(', ');
   }
 }
