@@ -4,9 +4,10 @@ import { Track } from '../../models/track.model';
 import { PlayerStateService } from '../../../core/services/player-state.service';
 
 @Component({
-selector: 'app-track-list',
-templateUrl: './track-list.component.html',
-styleUrls: ['./track-list.component.scss']
+  selector: 'app-track-list',
+  templateUrl: './track-list.component.html',
+  styleUrls: ['./track-list.component.scss'],
+  standalone: false
 })
 export class TrackListComponent {
 queue$: Observable<Track[]>;

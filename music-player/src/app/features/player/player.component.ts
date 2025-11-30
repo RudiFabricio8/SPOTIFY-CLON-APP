@@ -1,55 +1,111 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { PlayerStateService } from '../../core/services/player-state.service';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Track } from '../../shared/models/track.model';
+import { PlayerStateService } from '../../core/services/player-state.service';
 
 @Component({
-selector: 'app-player',
-templateUrl: './player.component.html',
-styleUrls: ['./player.component.scss']
+  selector: 'app-player',
+  templateUrl: './player.component.html',
+  styleUrls: ['./player.component.scss'],
+  standalone: false
 })
-export class PlayerComponent implements OnInit, OnDestroy {
-currentTrack: Track | null = null;
-currentIndex = -1;
-subs: Subscription[] = [];
-@ViewChild('audio') audioRef!: ElementRef<HTMLAudioElement>;
-progress = 0;
+export class PlayerComponent {
+	currentTrack$: Observable<Track | null>;
+	isPlaying = false;
+	flipped = false;
+	currentTime = 0;
+	duration = 0;
 
-constructor(private player: PlayerStateService) {}
+	@ViewChild('audioRef') audioRef?: ElementRef<HTMLAudioElement>;
 
-ngOnInit(): void {
-this.subs.push(this.player.currentTrack$.subscribe(t => {
-this.currentTrack = t;
-if (this.audioRef && this.audioRef.nativeElement) {
-setTimeout(() => {
-this.audioRef.nativeElement.load();
-if (t && t.preview_url) {
-this.audioRef.nativeElement.play().catch(() => {});
-}
-}, 0);
-}
-}));
-this.subs.push(this.player.currentIndex$.subscribe(i => this.currentIndex = i));
-}
+	constructor(private playerState: PlayerStateService) {
+		this.currentTrack$ = this.playerState.currentTrack$;
+	}
 
-ngOnDestroy(): void {
-this.subs.forEach(s => s.unsubscribe());
-}
+	togglePlay(): void {
+		const audio = this.audioRef?.nativeElement;
+		if (!audio) {
+			return;
+		}
+		if (this.isPlaying) {
+			audio.pause();
+			this.isPlaying = false;
+		} else {
+			audio.play();
+			this.isPlaying = true;
+		}
+	}
 
-playNext(): void { this.player.playNext(); }
-playPrevious(): void { this.player.playPrevious(); }
+	onTimeUpdate(): void {
+		const audio = this.audioRef?.nativeElement;
+		if (!audio) {
+			return;
+		}
+		this.currentTime = audio.currentTime;
+		this.duration = audio.duration || 0;
+	}
 
-onTimeUpdate(e: Event): void {
-const el = e.target as HTMLAudioElement;
-if (el.duration) {
-this.progress = (el.currentTime / el.duration) * 100;
-}
-}
+	onSeek(event: Event): void {
+		const audio = this.audioRef?.nativeElement;
+		if (!audio) {
+			return;
+		}
+		const input = event.target as HTMLInputElement;
+		const value = Number(input.value);
+		if (!isNaN(value)) {
+			audio.currentTime = value;
+		}
+	}
 
-seek(percent: number): void {
-const el = this.audioRef.nativeElement;
-if (el.duration) {
-el.currentTime = (percent / 100) * el.duration;
-}
-}
+	onEnded(): void {
+		this.playerState.playNext();
+		const audio = this.audioRef?.nativeElement;
+		setTimeout(() => {
+			if (audio) {
+				audio.play();
+				this.isPlaying = true;
+			}
+		});
+	}
+
+	playNext(): void {
+		this.playerState.playNext();
+		const audio = this.audioRef?.nativeElement;
+		setTimeout(() => {
+			if (audio) {
+				audio.play();
+				this.isPlaying = true;
+			}
+		});
+	}
+
+	playPrevious(): void {
+		this.playerState.playPrevious();
+		const audio = this.audioRef?.nativeElement;
+		setTimeout(() => {
+			if (audio) {
+				audio.play();
+				this.isPlaying = true;
+			}
+		});
+	}
+
+	toggleFlip(): void {
+		this.flipped = !this.flipped;
+	}
+
+	formatTime(value: number): string {
+		if (!value || isNaN(value)) {
+			return '0:00';
+		}
+		const totalSeconds = Math.floor(value);
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = totalSeconds % 60;
+		const padded = seconds < 10 ? `0${seconds}` : `${seconds}`;
+		return `${minutes}:${padded}`;
+	}
+
+	getArtistNames(artists: Array<{ name: string }> | undefined): string {
+		return (artists || []).map(a => a.name).join(', ');
+	}
 }

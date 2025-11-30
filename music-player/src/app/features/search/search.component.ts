@@ -1,33 +1,66 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SpotifyService } from '../../core/services/spotify.service';
 import { PlayerStateService } from '../../core/services/player-state.service';
 import { Track } from '../../shared/models/track.model';
+import { Album } from '../../shared/models/album.model';
+import { Router } from '@angular/router';
+
+interface SearchResult {
+	tracks: Track[];
+	albums: Album[];
+}
 
 @Component({
-selector: 'app-search',
-templateUrl: './search.component.html',
-styleUrls: ['./search.component.scss']
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss'],
+  standalone: false
 })
 export class SearchComponent {
-query = '';
-tracks: Track[] = [];
-loading = false;
+	query = '';
+	loading = false;
+	results$?: Observable<SearchResult | null>;
 
-constructor(private spotify: SpotifyService, private player: PlayerStateService) {}
+	constructor(
+		private spotify: SpotifyService,
+		private playerState: PlayerStateService,
+		private router: Router
+	) {}
 
-doSearch(): void {
-if (!this.query.trim()) {
-this.tracks = [];
-return;
-}
-this.loading = true;
-this.spotify.search(this.query).subscribe(res => {
-this.tracks = res.tracks.items || [];
-this.loading = false;
-}, () => this.loading = false);
-}
+	onSearch(): void {
+		const trimmed = this.query.trim();
+		if (!trimmed) {
+			this.results$ = undefined;
+			return;
+		}
+		this.loading = true;
+		this.results$ = this.spotify.search(trimmed).pipe(
+			map(res => {
+				this.loading = false;
+				return {
+					tracks: res.tracks.items,
+					albums: res.albums.items
+				};
+			})
+		);
+	}
 
-playTrack(index: number): void {
-this.player.setQueue(this.tracks, index);
-}
+	playTrack(track: Track): void {
+		const albumId = track.album.id;
+		this.spotify.getAlbum(albumId).subscribe(album => {
+			const tracks = album.tracks?.items || [];
+			const index = tracks.findIndex(t => t.id === track.id);
+			this.playerState.setQueue(tracks, index < 0 ? 0 : index);
+		});
+	}
+
+	openAlbum(album: Album): void {
+		this.router.navigate(['/album', album.id]);
+	}
+
+	getArtistNames(artists: Array<{ name: string }> | undefined): string {
+		return (artists || []).map(a => a.name).join(', ');
+	}
 }

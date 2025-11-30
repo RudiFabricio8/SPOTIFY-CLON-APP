@@ -1,1 +1,8 @@
-<div class="settings-root"> <h2>Settings</h2> <div><strong>Production:</strong> {{ env.production }}</div> <div><strong>Spotify API:</strong> {{ env.spotifyApiUrl }}</div> </div>
+<div class="settings-root">
+	<h1>Settings</h1>
+	<div class="settings-section">
+		<h2>Spotify API</h2>
+		<p>Base URL: {{ apiUrl }}</p>
+		<p>Access token is configured in environment files.</p>
+	</div>
+</div>

@@ -1,17 +1,79 @@
 .search-root {
-display: flex;
-flex-direction: column;
-gap: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
 }
 
-.search-box {
-display: flex;
-gap: 8px;
+.search-bar {
+	display: flex;
+	gap: 8px;
 }
 
-.result-item {
-display: flex;
-justify-content: space-between;
-padding: 8px;
-border-bottom: 1px solid #2a2a2a;
+.search-bar input {
+	flex: 1;
+	padding: 8px 12px;
+	border-radius: 999px;
+	border: none;
+	background-color: #2a2a2a;
+	color: #ffffff;
+	outline: none;
+}
+
+.search-bar button {
+	padding: 8px 16px;
+	border-radius: 999px;
+	border: none;
+	background-color: #1db954;
+	color: #000000;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.search-results {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+}
+
+.search-column h3 {
+	margin: 0 0 12px;
+}
+
+.search-track,
+.search-album {
+	display: flex;
+	gap: 12px;
+	padding: 8px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+}
+
+.search-track:hover,
+.search-album:hover {
+	background-color: #282828;
+}
+
+.search-track img,
+.search-album img {
+	width: 56px;
+	height: 56px;
+	border-radius: 4px;
+	object-fit: cover;
+}
+
+.search-track-info,
+.search-album-info {
+	display: flex;
+	flex-direction: column;
+}
+
+.title {
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.subtitle {
+	font-size: 12px;
+	color: #b3b3b3;
 }

@@ -1,5 +1,45 @@
 .library-root {
-display: flex;
-flex-direction: column;
-gap: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.library-root h1 {
+	margin: 0;
+}
+
+.library-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+	gap: 16px;
+}
+
+.library-card {
+	background-color: #181818;
+	border-radius: 8px;
+	padding: 12px;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+}
+
+.library-card:hover {
+	background-color: #282828;
+}
+
+.library-card img {
+	width: 100%;
+	aspect-ratio: 1;
+	border-radius: 6px;
+	object-fit: cover;
+	margin-bottom: 8px;
+}
+
+.library-card-info .title {
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.library-card-info .subtitle {
+	font-size: 12px;
+	color: #b3b3b3;
 }

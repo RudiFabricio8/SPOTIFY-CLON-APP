@@ -1,24 +1,81 @@
 .album-root {
-display: flex;
-flex-direction: column;
-gap: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
 }
 
 .album-header {
-display: flex;
-gap: 12px;
-align-items: center;
+	display: flex;
+	gap: 24px;
+	align-items: flex-end;
 }
 
-.album-header img {
-width: 160px;
-height: 160px;
-object-fit: cover;
+.album-cover {
+	width: 200px;
+	height: 200px;
+	border-radius: 12px;
+	object-fit: cover;
+	box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
 }
 
-.album-tracks .track-row {
-display: flex;
-justify-content: space-between;
-padding: 8px 0;
-border-bottom: 1px solid #2a2a2a;
+.album-meta h1 {
+	margin: 0 0 8px;
+	font-size: 28px;
+}
+
+.album-artist {
+	margin: 0 0 4px;
+	color: #b3b3b3;
+}
+
+.album-extra {
+	margin: 0 0 16px;
+	color: #a3a3a3;
+	font-size: 13px;
+}
+
+.album-meta button {
+	padding: 8px 20px;
+	border-radius: 999px;
+	border: none;
+	background-color: #1db954;
+	color: #000000;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.album-tracks {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.album-track {
+	display: grid;
+	grid-template-columns: 32px 1fr 80px;
+	gap: 12px;
+	align-items: center;
+	padding: 8px;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+}
+
+.album-track:hover {
+	background-color: #282828;
+}
+
+.album-track-main .title {
+	font-size: 14px;
+}
+
+.album-track-main .subtitle {
+	font-size: 12px;
+	color: #b3b3b3;
+}
+
+.album-track-duration {
+	font-size: 12px;
+	color: #b3b3b3;
+	text-align: right;
 }

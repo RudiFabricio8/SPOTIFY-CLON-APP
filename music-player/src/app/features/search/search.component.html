@@ -1,1 +1,54 @@
-<div class="search-root"> <div class="search-box"> <input [(ngModel)]="query" placeholder="Search tracks or albums" /> <button (click)="doSearch()">Search</button> </div> <div class="search-results"> <app-loader *ngIf="loading"></app-loader> <div *ngIf="!loading"> <div *ngFor="let t of tracks; let i = index" class="result-item"> <div class="result-info"> <div class="title">{{ t.name }}</div> <div class="subtitle">{{ t.artists.map(a => a.name).join(', ') }}</div> </div> <div class="result-actions"> <button (click)="playTrack(i)">Play</button> </div> </div> </div> </div> </div>
+<div class="search-root">
+	<div class="search-bar">
+		<input
+			type="text"
+			placeholder="Search for songs or albums"
+			[(ngModel)]="query"
+			(keyup.enter)="onSearch()"
+		/>
+		<button type="button" (click)="onSearch()">Search</button>
+	</div>
+
+	<app-loader *ngIf="loading"></app-loader>
+
+	<div class="search-results" *ngIf="results$ | async as results">
+		<div class="search-column">
+			<h3>Tracks</h3>
+			<div
+				class="search-track"
+				*ngFor="let track of results.tracks"
+				(click)="playTrack(track)"
+			>
+				<img
+					[src]="track.album.images?.[0]?.url"
+					[alt]="track.name"
+				/>
+				<div class="search-track-info">
+					<div class="title">{{ track.name }}</div>
+					<div class="subtitle">
+						{{ getArtistNames(track.artists) }} •
+						{{ track.album.name }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="search-column">
+			<h3>Albums</h3>
+			<div
+				class="search-album"
+				*ngFor="let album of results.albums"
+				(click)="openAlbum(album)"
+			>
+				<img
+					[src]="album.images?.[0]?.url"
+					[alt]="album.name"
+				/>
+				<div class="search-album-info">
+					<div class="title">{{ album.name }}</div>
+					<div class="subtitle">{{ getArtistNames(album.artists) }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

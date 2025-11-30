@@ -1,1 +1,45 @@
-<div class="album-root"> <div *ngIf="loading"> <app-loader></app-loader> </div> <div *ngIf="album"> <div class="album-header"> <img *ngIf="album.images?.length" [src]="album.images[0].url" [alt]="album.name" /> <div class="album-meta"> <h2>{{ album.name }}</h2> <p>{{ album.artists.map(a => a.name).join(', ') }}</p> <button (click)="playAlbum()">Play Album</button> </div> </div> <div class="album-tracks"> <div *ngFor="let t of album.tracks?.items; let i = index" class="track-row"> <div class="track-info">{{ t.track_number }}. {{ t.name }}</div> <div class="track-actions"> <button (click)="playTrack(i)">Play</button> </div> </div> </div> </div> </div>
+<div class="album-root" *ngIf="album as a; else loadingTpl">
+	<div class="album-header">
+		<img
+			class="album-cover"
+			[src]="a.images?.[0]?.url"
+			[alt]="a.name"
+		/>
+		<div class="album-meta">
+			<h1>{{ a.name }}</h1>
+			<p class="album-artist">{{ getArtistNames(a.artists) }}</p>
+			<p class="album-extra">
+				<span *ngIf="a.release_date">
+					{{ a.release_date | date: 'yyyy' }}
+				</span>
+				<span *ngIf="a.tracks && a.tracks.items && a.tracks.items.length">
+					• {{ a.tracks.items.length }} tracks
+				</span>
+			</p>
+			<button type="button" (click)="playAlbum()">Play album</button>
+		</div>
+	</div>
+
+	<div class="album-tracks">
+		<div
+			class="album-track"
+			*ngFor="let track of a.tracks?.items"
+			(click)="playTrack(track)"
+		>
+			<div class="album-track-index">
+				{{ track.track_number || '' }}
+			</div>
+			<div class="album-track-main">
+				<div class="title">{{ track.name }}</div>
+				<div class="subtitle">{{ getArtistNames(track.artists) }}</div>
+			</div>
+			<div class="album-track-duration">
+				{{ (track.duration_ms / 1000) | number: '1.0-0' }} s
+			</div>
+		</div>
+	</div>
+</div>
+
+<ng-template #loadingTpl>
+	<app-loader></app-loader>
+</ng-template>

@@ -5,8 +5,7 @@ import { PlayerRoutingModule } from './player-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-declarations: [PlayerComponent],
-imports: [CommonModule, PlayerRoutingModule, SharedModule],
-exports: [PlayerComponent]
+	declarations: [PlayerComponent],
+	imports: [CommonModule, PlayerRoutingModule, SharedModule]
 })
 export class PlayerModule {}

@@ -1,5 +1,9 @@
 .settings-root {
-display: flex;
-flex-direction: column;
-gap: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.settings-section h2 {
+	margin-bottom: 8px;
 }

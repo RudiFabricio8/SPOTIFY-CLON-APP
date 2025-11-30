@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-declarations: [SearchComponent],
-imports: [CommonModule, SearchRoutingModule, FormsModule, SharedModule]
+	declarations: [SearchComponent],
+	imports: [CommonModule, FormsModule, SearchRoutingModule, SharedModule]
 })
 export class SearchModule {}
