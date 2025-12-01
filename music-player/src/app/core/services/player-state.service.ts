@@ -16,11 +16,11 @@ export class PlayerStateService {
   currentIndex$ = this.currentIndexSubject.asObservable();
 
   setQueue(tracks: Track[], startIndex: number = 0): void {
-  console.log('setQueue', tracks.length, 'tracks, index', startIndex, tracks[startIndex]);
-  this.queueSubject.next(tracks);
-  this.currentIndexSubject.next(startIndex);
-  this.currentTrackSubject.next(tracks[startIndex] || null);
-}
+    console.log('setQueue', tracks.length, 'tracks, index', startIndex, tracks[startIndex]);
+    this.queueSubject.next(tracks);
+    this.currentIndexSubject.next(startIndex);
+    this.currentTrackSubject.next(tracks[startIndex] || null);
+  }
 
   playTrackAt(index: number): void {
     const queue = this.queueSubject.value;

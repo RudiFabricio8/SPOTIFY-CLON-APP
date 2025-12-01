@@ -48,17 +48,17 @@ export class SearchComponent {
   }
 
   playTrack(track: Track): void {
-  const albumId = track.album.id;
-  this.spotify.getAlbum(albumId).subscribe(album => {
-    const allTracks = album.tracks?.items || [];
-    if (!allTracks.length) {
-      return;
-    }
-    const index = allTracks.findIndex(t => t.id === track.id);
-    this.playerState.setQueue(allTracks, index < 0 ? 0 : index);
-    this.router.navigate(['/home']);
-  });
-}
+    const albumId = track.album.id;
+    this.spotify.getAlbum(albumId).subscribe(album => {
+      const allTracks = album.tracks?.items || [];
+      if (!allTracks.length) {
+        return;
+      }
+      const index = allTracks.findIndex(t => t.id === track.id);
+      this.playerState.setQueue(allTracks, index < 0 ? 0 : index);
+      this.router.navigate(['/home']);
+    });
+  }
 
   openAlbum(album: Album): void {
     this.router.navigate(['/album', album.id]);

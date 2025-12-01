@@ -1,6 +1,20 @@
-<div class="track-list-root"> <h3 class="track-list-title">Up next</h3> <ng-container *ngIf="queue$ | async as queue; else emptyQueue"> <div *ngIf="queue.length; else emptyQueue"> <ng-container *ngIf="currentIndex$ | async as currentIndex"> <app-track-item *ngFor="let track of queue; let i = index" [track]="track" [active]="i === currentIndex" (select)="playAt(i)" ></app-track-item> </ng-container> </div> </ng-container>
-<ng-template #emptyQueue>
-<p class="track-list-empty">No tracks in queue.</p>
-</ng-template>
+<div class="track-list-root">
+  <h3 class="track-list-title">Up next</h3>
 
+  <ng-container *ngIf="queue$ | async as queue; else emptyQueue">
+    <div *ngIf="queue.length; else emptyQueue">
+      <ng-container *ngIf="currentIndex$ | async as currentIndex">
+        <app-track-item
+          *ngFor="let track of queue; let i = index"
+          [track]="track"
+          [active]="i === currentIndex"
+          (select)="playAt(i)"
+        ></app-track-item>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyQueue>
+    <p class="track-list-empty">No tracks in queue.</p>
+  </ng-template>
 </div>

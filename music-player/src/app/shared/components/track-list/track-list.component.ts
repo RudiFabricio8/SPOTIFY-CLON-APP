@@ -10,15 +10,15 @@ import { PlayerStateService } from '../../../core/services/player-state.service'
   standalone: false
 })
 export class TrackListComponent {
-queue$: Observable<Track[]>;
-currentIndex$: Observable<number>;
+  queue$: Observable<Track[]>;
+  currentIndex$: Observable<number>;
 
-constructor(private playerState: PlayerStateService) {
-this.queue$ = this.playerState.queue$;
-this.currentIndex$ = this.playerState.currentIndex$;
-}
+  constructor(private playerState: PlayerStateService) {
+    this.queue$ = this.playerState.queue$;
+    this.currentIndex$ = this.playerState.currentIndex$;
+  }
 
-playAt(index: number): void {
-this.playerState.playTrackAt(index);
-}
+  playAt(index: number): void {
+    this.playerState.playTrackAt(index);
+  }
 }
