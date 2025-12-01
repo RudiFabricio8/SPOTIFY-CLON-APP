@@ -16,6 +16,7 @@ export class PlayerStateService {
   currentIndex$ = this.currentIndexSubject.asObservable();
 
   setQueue(tracks: Track[], startIndex: number = 0): void {
+    console.log('first track album', tracks[startIndex]?.album);
     console.log('setQueue', tracks.length, 'tracks, index', startIndex, tracks[startIndex]);
     this.queueSubject.next(tracks);
     this.currentIndexSubject.next(startIndex);

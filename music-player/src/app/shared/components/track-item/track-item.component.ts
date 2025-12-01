@@ -8,15 +8,15 @@ import { Track } from '../../models/track.model';
   standalone: false
 })
 export class TrackItemComponent {
-@Input() track!: Track;
-@Input() active = false;
-@Output() select = new EventEmitter<void>();
+  @Input() track!: Track;
+  @Input() active = false;
+  @Output() select = new EventEmitter<void>();
 
-onClick(): void {
-this.select.emit();
-}
+  onClick(): void {
+    this.select.emit();
+  }
 
-getArtistNames(artists: Array<{ name: string }> | undefined): string {
-	return (artists || []).map(a => a.name).join(', ');
-}
+  getArtistNames(artists: Array<{ name: string }> | undefined): string {
+    return (artists || []).map(a => a.name).join(', ');
+  }
 }

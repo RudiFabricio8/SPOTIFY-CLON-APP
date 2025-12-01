@@ -42,8 +42,9 @@ export class AlbumDetailComponent implements OnInit {
   if (!allTracks.length) {
     return;
   }
-  const index = allTracks.findIndex(t => t.id === track.id);
-  this.playerState.setQueue(allTracks, index < 0 ? 0 : index);
+  const enriched = allTracks.map(t => ({ ...t, album: { id: this.album!.id, name: this.album!.name, images: this.album!.images, release_date: this.album!.release_date } } as Track));
+  const index = enriched.findIndex(t => t.id === track.id);
+  this.playerState.setQueue(enriched, index < 0 ? 0 : index);
   this.router.navigate(['/home']);
 }
 
@@ -56,7 +57,8 @@ export class AlbumDetailComponent implements OnInit {
     if (!allTracks.length) {
       return;
     }
-    this.playerState.setQueue(allTracks, 0);
+    const enriched = allTracks.map(t => ({ ...t, album: { id: this.album!.id, name: this.album!.name, images: this.album!.images, release_date: this.album!.release_date } } as Track));
+    this.playerState.setQueue(enriched, 0);
     this.router.navigate(['/home']);
   }
 

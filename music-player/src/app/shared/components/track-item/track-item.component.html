@@ -1,9 +1,23 @@
 <div class="track-item" [class.track-item-active]="active" (click)="onClick()">
-	<div class="track-item-cover">
-		<img [src]="track.album.images[0].url" [alt]="track.name" />
-	</div>
-	<div class="track-item-info">
-		<div class="track-item-title">{{ track.name }}</div>
-		<div class="track-item-subtitle">{{ getArtistNames(track.artists) }}</div>
-	</div>
+  <div class="track-item-cover">
+    <img
+      class="cover"
+      *ngIf="track.album && track.album.images && track.album.images.length"
+      [src]="track.album.images[0].url"
+      [alt]="track.name || 'Track'"
+    />
+    <div
+      class="cover fallback"
+      *ngIf="!(track.album && track.album.images && track.album.images.length)"
+    >
+      {{ track.name || 'Track' }}
+    </div>
+  </div>
+
+  <div class="track-item-info">
+    <div class="track-item-title">{{ track.name }}</div>
+    <div class="track-item-subtitle">
+      {{ getArtistNames(track.artists) }}
+    </div>
+  </div>
 </div>

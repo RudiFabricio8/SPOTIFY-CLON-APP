@@ -54,8 +54,9 @@ export class SearchComponent {
       if (!allTracks.length) {
         return;
       }
-      const index = allTracks.findIndex(t => t.id === track.id);
-      this.playerState.setQueue(allTracks, index < 0 ? 0 : index);
+      const enriched = allTracks.map(t => ({ ...t, album: { id: album.id, name: album.name, images: album.images, release_date: album.release_date } } as Track));
+      const index = enriched.findIndex(t => t.id === track.id);
+      this.playerState.setQueue(enriched, index < 0 ? 0 : index);
       this.router.navigate(['/home']);
     });
   }
